@@ -10,7 +10,10 @@ export interface Runner {
       version: string
       banner?: string
     }) => void,
-    packages?: string[][]
+    packages?: string[][],
+    jsModules?: {
+      [key: string]: any,
+    },
   ) => Promise<void>
   interruptExecution: () => void
   readFile: (name: string) => void

@@ -13,13 +13,15 @@ import useFilesystem from './useFilesystem'
 import { Packages } from '../types/Packages'
 import { PythonConsoleRunner } from '../types/Runner'
 import { ConsoleState } from '../types/Console'
+import { JSModules } from '../types/JSModules'
 
 interface UsePythonConsoleProps {
-  packages?: Packages
+  packages?: Packages,
+  jsModules?: JSModules,
 }
 
 export default function usePythonConsole(props?: UsePythonConsoleProps) {
-  const { packages = {} } = props ?? {}
+  const { packages = {}, jsModules = {} } = props ?? {}
 
   const [runnerId, setRunnerId] = useState<string>()
   const [isLoading, setIsLoading] = useState(false)
@@ -112,7 +114,8 @@ export default function usePythonConsole(props?: UsePythonConsoleProps) {
               setBanner(banner)
               console.debug('Loaded pyodide version:', version)
             }),
-            allPackages
+            allPackages,
+            jsModules,
           )
         } catch (error) {
           console.error('Error loading Pyodide:', error)

@@ -66,7 +66,10 @@ const python = {
       version: string
       banner?: string
     }) => void,
-    packages: string[][]
+    packages: string[][],
+    jsModules?: {
+      [key: string]: any,
+    }
   ) {
     self.pyodide = await self.loadPyodide({
       stdout
@@ -85,6 +88,9 @@ const python = {
     const version = self.pyodide.version
 
     self.pyodide.registerJsModule('react_py', reactPyModule)
+    for (const [key, value] of Object.entries(jsModules ?? {})) {
+      self.pyodide.registerJsModule(key, value)
+    }
     const initCode = `
 import pyodide_http
 pyodide_http.patch_all()

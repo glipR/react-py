@@ -12,13 +12,15 @@ import useFilesystem from './useFilesystem'
 
 import { Packages } from '../types/Packages'
 import { PythonRunner } from '../types/Runner'
+import { JSModules } from '../types/JSModules'
 
 interface UsePythonProps {
-  packages?: Packages
+  packages?: Packages,
+  jsModules?: JSModules,
 }
 
 export default function usePython(props?: UsePythonProps) {
-  const { packages = {} } = props ?? {}
+  const { packages = {}, jsModules = {} } = props ?? {}
 
   const [runnerId, setRunnerId] = useState<string>()
   const [isLoading, setIsLoading] = useState(false)
@@ -109,7 +111,8 @@ export default function usePython(props?: UsePythonProps) {
               setRunnerId(id)
               console.debug('Loaded pyodide version:', version)
             }),
-            allPackages
+            allPackages,
+            jsModules,
           )
         } catch (error) {
           console.error('Error loading Pyodide:', error)
