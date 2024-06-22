@@ -15,10 +15,11 @@ import { PythonRunner } from '../types/Runner'
 
 interface UsePythonProps {
   packages?: Packages
+  printInput?: boolean
 }
 
 export default function usePython(props?: UsePythonProps) {
-  const { packages = {} } = props ?? {}
+  const { packages = {}, printInput = true } = props ?? {}
 
   const [runnerId, setRunnerId] = useState<string>()
   const [isLoading, setIsLoading] = useState(false)
@@ -113,7 +114,8 @@ export default function usePython(props?: UsePythonProps) {
               setRunnerId(id)
               console.debug('Loaded pyodide version:', version)
             }),
-            allPackages
+            allPackages,
+            printInput,
           )
         } catch (error) {
           console.error('Error loading Pyodide:', error)

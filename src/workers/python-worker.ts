@@ -69,7 +69,8 @@ const python = {
       version: string
       banner?: string
     }) => void,
-    packages: string[][]
+    packages: string[][],
+    printInput: boolean,
   ) {
     self.pyodide = await self.loadPyodide({
       stdout,
@@ -103,7 +104,7 @@ def get_input(prompt=""):
     __prompt_str__ = prompt
     print(prompt, end="")
     s = react_py.getInput("${id}", prompt)
-    print(s)
+    ${printInput ? 'print(s)': ''}
     return s
 builtins.input = get_input
 sys.stdin.readline = lambda: react_py.getInput("${id}", __prompt_str__)
